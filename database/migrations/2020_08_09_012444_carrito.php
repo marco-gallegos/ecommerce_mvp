@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class MovimientosInventario extends Migration
+class Carrito extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class MovimientosInventario extends Migration
      */
     public function up()
     {
-        Schema::create('movimientos_inventario', function (Blueprint $table) {
+        Schema::create('carrito', function (Blueprint $table) {
             $table->id();
-
-            $table->integer('tipo')->default(0);
+            
             $table->integer('idproducto');
             $table->integer('idusuario');
             $table->integer('cantidad')->default(1);
@@ -32,6 +31,6 @@ class MovimientosInventario extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('movimientos_inventario');
+        Schema::dropIfExists('carrito');
     }
 }

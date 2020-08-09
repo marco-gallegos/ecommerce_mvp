@@ -20,3 +20,15 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/catalogo', 'ProductosController@index')->name('catalogo.index');
+Route::get('/productos', 'ProductosController@list')->name('catalogo.list');
+
+Route::get('/productos/create', 'ProductosController@create')->name('catalogo.create');
+Route::post('/productos', 'ProductosController@store')->name('catalogo.store');
+Route::post('/productos/{id}', 'ProductosController@show')->name('catalogo.show');
+Route::put('/productos/{id}', 'ProductosController@update')->name('catalogo.edit');
+
+
+Route::post('/movimientos/inventario', 'ProductosController@store_entrada')->name('catalogo.create');
+Route::post('/movimientos/inventario', 'ProductosController@store_salida')->name('catalogo.create');

@@ -49878,8 +49878,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/gallem/ecomerce/home/gallem/ecomerce/mvp/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/gallem/ecomerce/home/gallem/ecomerce/mvp/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /mnt/HomeStorage/Bellatrix/Documentos/Codigo/php/mvp/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /mnt/HomeStorage/Bellatrix/Documentos/Codigo/php/mvp/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

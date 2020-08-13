@@ -17,7 +17,7 @@ Route::get('/', 'ProductosController@catalogo');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@indexs')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/catalogo', 'ProductosController@index')->name('catalogo.index');
 

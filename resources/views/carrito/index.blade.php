@@ -6,7 +6,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <a href="{{ url('ventas.store') }}" class="btn btn-info" >Comprar</a>
+            <a href='{{ url("pagos") }}' class="btn btn-info" >Comprar</a>
         </div>
     </div>
     <div class="row">

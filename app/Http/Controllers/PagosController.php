@@ -10,7 +10,16 @@ class PagosController extends Controller
     public function index(){
         $error = session('error');
         $user = Auth::user();
-        return view('pagos.create', compact(["user","error"]));
+        $carrito = Carrito::where('idusuario', $user->id);
+
+
+        $customer_response = $this->CreateCustomer([
+            "name"=>$data['name'],
+            "email"=>$data['email'],
+            "token"=>$data['conektaTokenId'],
+        ]);
+
+        return view('pagos.create', compact(["user", "carrito", "error"]));
     }
     
     //
@@ -22,6 +31,8 @@ class PagosController extends Controller
     public function Pay(Request $request){
         $data = $request->all();
         $response = $this->CreateOrder($data);
+
+        //despues de crear la orden almacenar la venta
 
         return redirect('pagos')->with(["error"=>$response['error']]);
     }
@@ -36,11 +47,7 @@ class PagosController extends Controller
             "error" => "no hay error"
         ];
 
-        $customer_response = $this->CreateCustomer([
-            "name"=>$data['name'],
-            "email"=>$data['email'],
-            "token"=>$data['conektaTokenId'],
-        ]);
+        
 
         //dump($customer_response['customer']);
         //dump($customer_response['customer']->id);

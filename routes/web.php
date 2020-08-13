@@ -34,3 +34,6 @@ Route::post('/movimientos/inventario', 'ProductosController@store_entrada')->nam
 Route::post('/movimientos/inventario', 'ProductosController@store_salida')->name('catalogo.create');
 
 Route::resource('productos', 'ProductosController');
+
+Route::get('pagos', 'PagosController@index');
+Route::post('pagos/pay', 'PagosController@pay');

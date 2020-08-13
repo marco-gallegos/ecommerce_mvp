@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\ProductosPostRequest;
+use Auth;
+
 use App\Productos;
+use App\MovimientosInventario;
 
 
 class ProductosController extends Controller
@@ -13,13 +16,19 @@ class ProductosController extends Controller
     public function catalogo()
     {
         $productos = Productos::all();
-        return view('catalogo.index', compact('productos'));
+        return view('catalogo.index', compact(['productos']));
+    }
+    
+    public function movimientos()
+    {
+        $movimientos = MovimientosInventario::paginate(50);
+        return view('movimientos.index', compact(['movimientos']));
     }
 
     public function index()
     {
         $productos = Productos::all();
-        return view('productos.index', compact('productos'));
+        return view('productos.index', compact(['productos']));
     }
 
     public function show(Request $request, $productos)
@@ -38,6 +47,20 @@ class ProductosController extends Controller
     {
         $data = $request->validated();
         $productos = Productos::create($data);
+
+        if ($request->existencia > 0) {
+            $movimiento = MovimientosInventario::create(
+                [
+                    'tipo' => 0, #utilizando 0 para entrada y 1 para salida
+                    'idproducto' => $productos->id,
+                    'idusuario' => Auth::user()->id,
+                    'cantidad' => $request->existencia,
+                ]
+            );
+            $productos->existencia += $request->existencia;
+            $productos->save();
+        }
+
         return redirect()->route('productos.index')->with('status', 'Productos created!');
     }
 

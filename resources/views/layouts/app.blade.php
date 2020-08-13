@@ -21,6 +21,8 @@
 </head>
 <body>
     <div id="app-sinvue">
+        <div id="app">
+        </div>
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">

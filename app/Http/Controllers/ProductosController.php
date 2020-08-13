@@ -10,6 +10,12 @@ use App\Productos;
 class ProductosController extends Controller
 {
 
+    public function catalogo()
+    {
+        $productos = Productos::all();
+        return view('catalogo.index', compact('productos'));
+    }
+
     public function index()
     {
         $productos = Productos::all();

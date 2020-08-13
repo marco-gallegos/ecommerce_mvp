@@ -1,9 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="https://cdn.conekta.io/js/latest/conekta.js"></script>
 <script>
-Conekta.setPublicKey("key_JxXxpPyxKKYsMu5wYgr5ncg");
+
+axios.get('/api/llave').then(resp=>{
+    console.log('hola axios');
+    console.log(resp.data.llave);
+    //Conekta.setPublicKey("key_JxXxpPyxKKYsMu5wYgr5ncg");
+    Conekta.setPublicKey(resp.data.llave);
+}
+);
+
 
 var conektaSuccessResponseHandler = function(token){
     var elem = document.querySelector("#conektaTokenId");
@@ -83,11 +92,12 @@ function new_submit(){
                 </div>
                 <div class="col-md-4">
                     <label>Concepto</label>
-                    <input class="form-control" type="text" name="description" id="description" maxlength="100" value="papitas">
+                    <input class="form-control" type="text" name="description" id="description" maxlength="100" value="Venta Marco Shop">
                 </div>
                 <div class="col-md-4">
                     <label>Monto</label>
-                    <input class="form-control" type="number" name="total" id="total" value="30">
+                    <input class="form-control" type="number" readonly id="total" value="{{ $data['total'] }}">
+                    <input class="form-control" type="hidden" name="total" id="total" value="{{ $data['total'] }}">
                 </div>
             </div>
         </div>

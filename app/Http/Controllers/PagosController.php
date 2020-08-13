@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 
 use App\ConektaCustomer;
+use App\Carrito;
 use App\Pago;
 use App\Venta;
 use App\VentaDetalle;
@@ -17,12 +18,25 @@ class PagosController extends Controller
         $this->middleware('auth');
     }
 
+    public function sumarcarrito($carrito){
+        $response = 0;
+        
+        foreach($carrito as $item){
+            $response += ($item->Producto->precio * $item->cantidad);
+        }
+        return $response;
+    }
+
     public function index(){
         $error = session('error');
         $user = Auth::user();
-        $carrito = Carrito::where('idusuario', $user->id);
-
-        return view('pagos.create', compact(["user", "carrito", "error"]));
+        $carrito = Carrito::where('idusuario', $user->id)->get();
+        
+        $data = [
+            'total' => $this->sumarcarrito($carrito),
+        ];
+        
+        return view('pagos.create', compact(["user", "carrito", "data", "error"]));
     }
     
     //
@@ -35,10 +49,19 @@ class PagosController extends Controller
         $data = $request->all();
         $response = $this->CreateOrder($data);
 
+        $user = Auth::user();
+        $carrito = Carrito::where('idusuario', $user->id)->get();
+
         //despues de crear la orden almacenar la venta
-        $pago = Pago::create([
-            
-        ])
+        if ($response['status']) {
+            $pago = Pago::create([
+                'idusuario' => $user->id,
+                'conekta_order' => $response['order']->id,
+            ]);
+
+            // datos de venta, venta detalle y descuentos de inventario
+
+        }
 
         return redirect('pagos')->with(["error"=>$response['error']]);
     }
@@ -57,29 +80,42 @@ class PagosController extends Controller
         $carrito = Carrito::where('idusuario', $user->id);
         $customer_id = null;
 
-        //$customer = ConektaCustomer::where('idusuario', $user->id)->get();
+        $customer = ConektaCustomer::where('idusuario', $user->id)->first();
 
-        $customer_response = $this->CreateCustomer([
-            "name"=>$data['name'],
-            "email"=>$data['email'],
-            "token"=>$data['conektaTokenId'],
-        ]);
-        
-        /*
-        if (!$customer) {
-        }else{
+        if ($customer) {
+            //dd($customer);
             $customer_id = $customer->conekta_customer;
+            $customer_response = [
+                'status'=>true,
+            ];
+        }else{
+            $customer_response = $this->CreateCustomer([
+                "name"=>$data['name'],
+                "email"=>$data['email'],
+                "token"=>$data['conektaTokenId'],
+            ]);
+
+            if($customer_response['status']){
+                $customer_id = $customer_response['customer']->id;
+                ConektaCustomer::create([
+                    'idusuario'=>$user->id,
+                    'conekta_customer'=>$customer_response['customer']->id,
+                ]);
+            }
         }
+        /*
         */
 
         $data['total'] = floatval($data['total']);
+
+        //dd($data);
 
         if($customer_response['status']){
             
             try{
 
                 $orderData = array(
-                    "amount"=>$data['total'],
+                    "amount"=>"{$data['total']}",
                     "line_items" => array(
                         array(
                             "name" => $data['description'],
@@ -89,7 +125,7 @@ class PagosController extends Controller
                     ), //line_items
                     "currency" => "MXN",
                     "customer_info" => array(
-                        "customer_id" => $customer_response['customer']->id
+                        "customer_id" => $customer_id
                     ), //customer_info
                     "charges" => array(
                         array(

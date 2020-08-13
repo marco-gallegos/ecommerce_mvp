@@ -16,4 +16,9 @@ class Carrito extends Model
     protected $fillable = [
         'idusuario', 'idproducto', 'cantidad',
     ];
+
+    public function Producto()
+    {
+        return $this->belongsTo('App\Productos', 'idproducto', 'id');
+    }
 }

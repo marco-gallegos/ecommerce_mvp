@@ -35,3 +35,7 @@ Route::resource('productos', 'ProductosController');
 
 Route::get('pagos', 'PagosController@index');
 Route::post('pagos/pay', 'PagosController@pay');
+
+Route::get('carrito', 'CarritoController@index')->name('carrito');
+Route::get('carrito/agregar/{idproducto}', 'CarritoController@agregar');
+Route::get('carrito/eliminar/{idproducto}', 'CarritoController@eliminar');

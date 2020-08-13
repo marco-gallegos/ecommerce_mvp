@@ -52,7 +52,9 @@
                             @endif
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="">Carrito</a>
+                                <a class="nav-link" href="{{  route('carrito') }}">
+                                    Carrito
+                                </a>
                             </li>
 
                             <li class="nav-item dropdown">

@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('message'))
+            <div class="alert alert-success" role="alert">
+                <strong>{{ session('message') }}</strong>
+            </div>
+        @endif
+
         <div class="row">
             @foreach ($productos as $producto)
                 <div class="col-md-6 col-lg-3 py-2" >

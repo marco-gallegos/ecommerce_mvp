@@ -17,4 +17,9 @@ class MovimientosInventario extends Model
     protected $fillable = [
         'tipo', 'idproducto', 'idusuario', 'cantidad',
     ];
+
+    public function Producto()
+    {
+        return $this->belongsTo('App\Productos', 'idproducto', 'id');
+    }
 }

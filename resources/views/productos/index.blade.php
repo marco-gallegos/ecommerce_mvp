@@ -15,7 +15,7 @@
 
     <div>
         <a href="{{route('productos.create')}}" class="btn btn-default" >New</a>
-        <a href="{{route('movimiento.entrada')}}" class="btn btn-default" >Entrada</a>
+        <a href="{{route('movimiento.create')}}" class="btn btn-default" >Entrada</a>
     </div>
     <table class="table table-striped">
         @if(count($productos))

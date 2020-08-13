@@ -17,9 +17,9 @@
             <tbody>
                 @foreach ($movimientos as $movimiento)
                     <tr>
-                        <td scope="row">{{ $movimiento->tipo }}</td>
+                        <td scope="row">{{ ($movimiento->tipo == 0)? "Entrada":"Salida" }}</td>
                         <td>{{ $movimiento->created_at }}</td>
-                        <td>{{ $movimiento->idproducto }}</td>
+                        <td>{{ $movimiento->Producto->nombre }}</td>
                         <td>{{ $movimiento->cantidad }}</td>
                     </tr>
                 @endforeach

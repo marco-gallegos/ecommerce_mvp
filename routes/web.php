@@ -27,9 +27,9 @@ Route::get('/catalogo', 'ProductosController@index')->name('catalogo.index');
 //Route::post('/productos/{id}', 'ProductosController@show')->name('catalogo.show');
 //Route::put('/productos/{id}', 'ProductosController@update')->name('catalogo.edit');
 
-Route::get('/movimientos', 'ProductosController@movimientos')->name('movimiento');
-Route::get('/movimientos/inventario/entrada', 'ProductosController@view_entrada')->name('movimiento.entrada');
-Route::post('/movimientos/inventario/entrada', 'ProductosController@store_entrada')->name('movimiento.entrada');
+Route::get('/movimientos', 'MovimientosController@index')->name('movimiento');
+Route::get('/movimientos/create', 'MovimientosController@create')->name('movimiento.create');
+Route::post('/movimientos', 'MovimientosController@store')->name('movimiento.store');
 
 Route::resource('productos', 'ProductosController');
 

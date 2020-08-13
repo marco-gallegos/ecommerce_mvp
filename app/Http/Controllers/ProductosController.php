@@ -18,12 +18,6 @@ class ProductosController extends Controller
         $productos = Productos::all();
         return view('catalogo.index', compact(['productos']));
     }
-    
-    public function movimientos()
-    {
-        $movimientos = MovimientosInventario::paginate(50);
-        return view('movimientos.index', compact(['movimientos']));
-    }
 
     public function index()
     {
@@ -42,7 +36,7 @@ class ProductosController extends Controller
         return view('productos.create');
     }
 
-    // FIXME: agregar movimiento inventario si es que se necesita
+
     public function store(ProductosPostRequest $request)
     {
         $data = $request->validated();
@@ -78,7 +72,6 @@ class ProductosController extends Controller
      * @param [type] $productos
      * @return void
      */
-    // TODO: eliminar la existencia de edicion
     public function update(ProductosPostRequest $request, $productos)
     {
         $productos = Productos::find($productos);

@@ -5,19 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 
+use App\ConektaCustomer;
+use App\Pago;
+use App\Venta;
+use App\VentaDetalle;
+use App\Notificaciones;
+
 class PagosController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function index(){
         $error = session('error');
         $user = Auth::user();
         $carrito = Carrito::where('idusuario', $user->id);
-
-
-        $customer_response = $this->CreateCustomer([
-            "name"=>$data['name'],
-            "email"=>$data['email'],
-            "token"=>$data['conektaTokenId'],
-        ]);
 
         return view('pagos.create', compact(["user", "carrito", "error"]));
     }
@@ -33,6 +36,9 @@ class PagosController extends Controller
         $response = $this->CreateOrder($data);
 
         //despues de crear la orden almacenar la venta
+        $pago = Pago::create([
+            
+        ])
 
         return redirect('pagos')->with(["error"=>$response['error']]);
     }
@@ -47,14 +53,29 @@ class PagosController extends Controller
             "error" => "no hay error"
         ];
 
-        
+        $user = Auth::user();
+        $carrito = Carrito::where('idusuario', $user->id);
+        $customer_id = null;
 
-        //dump($customer_response['customer']);
-        //dump($customer_response['customer']->id);
+        //$customer = ConektaCustomer::where('idusuario', $user->id)->get();
+
+        $customer_response = $this->CreateCustomer([
+            "name"=>$data['name'],
+            "email"=>$data['email'],
+            "token"=>$data['conektaTokenId'],
+        ]);
+        
+        /*
+        if (!$customer) {
+        }else{
+            $customer_id = $customer->conekta_customer;
+        }
+        */
 
         $data['total'] = floatval($data['total']);
 
         if($customer_response['status']){
+            
             try{
 
                 $orderData = array(
@@ -79,7 +100,7 @@ class PagosController extends Controller
                     ) //charges
                 );//order
 
-                dump($orderData);
+                //dump($orderData);
                 
                 $order = \Conekta\Order::create(
                     $orderData

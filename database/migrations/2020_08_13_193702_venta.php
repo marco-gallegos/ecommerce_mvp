@@ -17,7 +17,7 @@ class Venta extends Migration
             $table->id();
             
             $table->integer('idusuario');
-            $table->integer('idpago');
+            $table->integer('idpago')->nullable();
             $table->dateTime('fecha');
 
             $table->timestamps();

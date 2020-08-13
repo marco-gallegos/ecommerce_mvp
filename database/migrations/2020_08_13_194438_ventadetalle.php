@@ -19,6 +19,7 @@ class Ventadetalle extends Migration
             $table->integer('idventa');
             $table->integer('idproducto');
             $table->integer('cantidad');
+            $table->float('precio');
             $table->dateTime('fecha');
 
             $table->timestamps();

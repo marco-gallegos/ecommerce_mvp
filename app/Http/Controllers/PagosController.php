@@ -139,26 +139,7 @@ class PagosController extends Controller
                 //dump($orderData);
                 
                 $order = \Conekta\Order::create(
-                    [
-                        'currency' => 'MXN',
-                        'customer_info' => [
-                            'customer_id' => $customer_id
-                        ],
-                        'line_items' => [
-                            [
-                                'name' => 'Box of Cohiba S1s',
-                                'unit_price' => 3500,
-                                'quantity' => 1
-                            ]
-                        ],
-                        'charges' => [
-                            [
-                                'payment_method' => [
-                                    'type' => 'default',
-                                ]
-                            ]
-                        ]
-                    ]
+                    $orderData
                 );
                 $response['status'] = true;
                 $response['order'] = $order;

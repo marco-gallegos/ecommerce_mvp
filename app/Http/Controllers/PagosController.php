@@ -67,7 +67,7 @@ class PagosController extends Controller
     }
 
     public function CreateOrder($data){
-        //dump(env('CONEKTA_PRIVATE_KEY', "no hay crack"));
+        dump(env('CONEKTA_PRIVATE_KEY', "no hay crack"));
         \Conekta\Conekta::setApiKey(env('CONEKTA_PRIVATE_KEY', "no hay crack"));
         \Conekta\Conekta::setApiVersion("2.0.0");
         $response = [
@@ -99,14 +99,14 @@ class PagosController extends Controller
                 $customer_id = $customer_response['customer']->id;
                 ConektaCustomer::create([
                     'idusuario'=>$user->id,
-                    'conekta_customer'=>$customer_response['customer']->id,
+                    'conekta_customer'=>$customer_id,
                 ]);
             }
         }
         /*
         */
 
-        $data['total'] = floatval($data['total']);
+        //$data['total'] = floatval($data['total']);
 
         //dd($data);
 
@@ -115,7 +115,7 @@ class PagosController extends Controller
             try{
 
                 $orderData = array(
-                    "amount"=>"{$data['total']}",
+                    #"amount"=>$data['total'],
                     "line_items" => array(
                         array(
                             "name" => $data['description'],
@@ -139,7 +139,26 @@ class PagosController extends Controller
                 //dump($orderData);
                 
                 $order = \Conekta\Order::create(
-                    $orderData
+                    [
+                        'currency' => 'MXN',
+                        'customer_info' => [
+                            'customer_id' => $customer_id
+                        ],
+                        'line_items' => [
+                            [
+                                'name' => 'Box of Cohiba S1s',
+                                'unit_price' => 3500,
+                                'quantity' => 1
+                            ]
+                        ],
+                        'charges' => [
+                            [
+                                'payment_method' => [
+                                    'type' => 'default',
+                                ]
+                            ]
+                        ]
+                    ]
                 );
                 $response['status'] = true;
                 $response['order'] = $order;

@@ -5,7 +5,8 @@
 <script type="text/javascript" src="https://cdn.conekta.io/js/latest/conekta.js"></script>
 <script>
 
-axios.get('/api/llave').then(resp=>{
+axios.get('/api/llave').then(resp=>
+    {
     console.log('hola axios');
     console.log(resp.data.llave);
     //Conekta.setPublicKey("key_JxXxpPyxKKYsMu5wYgr5ncg");
@@ -63,7 +64,7 @@ function new_submit(){
                     <label>
                         Número de tarjeta
                     </label>
-                    <input value="4242424242424242" name="card" id="card" data-conekta="card[number]" class="form-control"   type="text" maxlength="16" >
+                    <input value="4242424242424242" id="card" data-conekta="card[number]" class="form-control" type="text" maxlength="16" >
                 </div>
             </div>
 
@@ -80,7 +81,7 @@ function new_submit(){
                         </label>
                         <div>
                             <input style="width:50px; display:inline-block" value="11" data-conekta="card[exp_month]" class="form-control"  type="text" maxlength="2" >
-                            <input style="width:50px; display:inline-block" value="20" data-conekta="card[exp_year]" class="form-control"  type="text" maxlength="2" >
+                            <input style="width:50px; display:inline-block" value="22" data-conekta="card[exp_year]" class="form-control"  type="text" maxlength="2" >
                         </div>
                 </div>
             </div>
